@@ -2,7 +2,7 @@ import aiofiles
 from aiogram import types, Dispatcher, Bot
 
 from config import HELP_TEXT, BOT_TOKEN
-from services import get_file_name
+from services import get_random_file_name
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -17,6 +17,6 @@ async def send_welcome_message(message: types.Message):
 @dp.message_handler(commands=['voice'])
 async def send_random_voice(message: types.Message):
     """Отправляет случайное голосовое сообщение"""
-    file_name = get_file_name()
+    file_name = get_random_file_name()
     async with aiofiles.open(f'voices/{file_name}', 'rb') as voice:
         await message.answer_voice(voice)

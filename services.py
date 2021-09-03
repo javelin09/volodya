@@ -2,7 +2,7 @@ import os
 import random
 
 
-def get_file_name() -> str:
+def get_random_file_name() -> str:
     """Возвращает имя случайного аудиофайла в директории voices"""
     voices = os.listdir('voices')
     files_number = len(voices) - 1
