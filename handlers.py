@@ -4,6 +4,7 @@ from aiogram import types, Dispatcher, Bot
 from config import HELP_TEXT, BOT_TOKEN
 from services import get_random_file_name
 
+
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 
