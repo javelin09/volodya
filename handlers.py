@@ -1,7 +1,7 @@
 import aiofiles
 from aiogram import types, Dispatcher, Bot
 
-from config import HELP_TEXT, BOT_TOKEN
+from config import WELCOME_TEXT, BOT_TOKEN
 from services import get_random_file_name
 
 
@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=['start'])
 async def send_welcome_message(message: types.Message):
     """Отправляет приветственное сообщение"""
-    await message.answer(HELP_TEXT)
+    await message.answer(WELCOME_TEXT)
 
 
 @dp.message_handler(commands=['voice'])
