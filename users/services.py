@@ -4,7 +4,7 @@ from loguru import logger
 from .models import TelegramUser
 
 
-@sync_to_async()
+@sync_to_async
 def update_or_create_user(
         telegram_id: int,
         username: str,
