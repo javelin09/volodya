@@ -5,7 +5,7 @@ from django.conf import settings
 from loguru import logger
 
 from users.services import update_or_create_user
-from .services import get_random_voice_path, get_generated_text
+from .services import get_random_voice_path, get_random_sticker_path, get_generated_text
 
 
 bot = Bot(token=settings.BOT_TOKEN)
@@ -32,6 +32,15 @@ async def send_random_voice(message: types.Message):
     async with aiofiles.open(path, 'rb') as voice:
         await message.answer_voice(voice)
     logger.info('A voice message was sent successfully')
+
+
+@dp.message_handler(commands=['flip_coin'])
+async def flip_coin(message: types.Message):
+    """Отправляет случайный стикер"""
+    path = await get_random_sticker_path()
+    async with aiofiles.open(path, 'rb') as sticker:
+        await message.answer_sticker(sticker)
+    logger.info('A sticker was sent successfully')
 
 
 @dp.message_handler(commands=['balaboba'])

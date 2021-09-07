@@ -18,3 +18,20 @@ class VoiceMessage(models.Model):
         verbose_name = 'Голосовое сообщение'
         verbose_name_plural = 'Голосовые сообщения'
         ordering = ['id']
+
+
+class Sticker(models.Model):
+    """Стикеры"""
+    sticker = models.FileField(verbose_name='Стикеры', upload_to='stickers')
+
+    @property
+    def file_name(self):
+        return os.path.basename(self.sticker.name)
+
+    def __str__(self):
+        return self.file_name
+
+    class Meta:
+        verbose_name = 'Стикер'
+        verbose_name_plural = 'Стикеры'
+        ordering = ['id']
