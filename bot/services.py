@@ -2,6 +2,7 @@ import ast
 import json
 import random
 import urllib.request
+from typing import Union
 
 from asgiref.sync import sync_to_async
 from django.conf import settings
@@ -17,8 +18,11 @@ def get_random_voice_path() -> str:
 
 
 @sync_to_async
-def get_generated_text(phrase):
+def get_generated_text(phrase: str) -> Union[str, tuple]:
     """Возвращает дополненный Балабобой текст"""
+    is_empty_phrase = False
+    if not phrase:
+        is_empty_phrase = True
     headers = {
         'Content-Type': 'application/json',
     }
@@ -31,4 +35,4 @@ def get_generated_text(phrase):
     req = urllib.request.Request(settings.BALABOBA_URL, data=data, headers=headers)
     response_binary = urllib.request.urlopen(req).read().decode('utf-8')
     generated_text = ast.literal_eval(response_binary)
-    return generated_text['text']
+    return is_empty_phrase, generated_text['text']
