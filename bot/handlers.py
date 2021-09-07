@@ -63,7 +63,7 @@ async def send_balaboba_text(message: types.Message):
 @dp.message_handler(content_types=['text'])
 async def reply_to_swearing(message: types.Message):
     for word in settings.SWEAR_WORDS_LIST:
-        if word in message.text:
+        if word in message.text.lower():
             reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
             await message.reply(f'{message.from_user.first_name}, {reply_text}')
             logger.info('A reaction to the swear word was sent successfully')
