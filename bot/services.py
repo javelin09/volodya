@@ -18,7 +18,7 @@ def get_random_voice_path() -> str:
 
 
 @sync_to_async
-def get_generated_text(phrase: str) -> Union[str, tuple]:
+def get_generated_text(phrase: str) -> tuple:
     """Возвращает дополненный Балабобой текст"""
     is_empty_phrase = False
     if not phrase:
