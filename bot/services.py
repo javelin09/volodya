@@ -2,7 +2,6 @@ import ast
 import json
 import random
 import urllib.request
-from typing import Union
 
 from asgiref.sync import sync_to_async
 from django.conf import settings
