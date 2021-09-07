@@ -154,6 +154,8 @@ SWEAR_WORDS_LIST = [
     'пиздатое',
     'пиздатая',
     'пизди',
+    'ахуеть',
+    'ахуел',
 ]
 
 ANSWERS_TO_SWEARING_LIST = [
