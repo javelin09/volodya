@@ -4,7 +4,7 @@ from django.conf import settings
 from loguru import logger
 
 from users.services import update_or_create_user
-from .services import get_random_voice_path
+from .services import get_random_voice_path, get_generated_text
 
 
 bot = Bot(token=settings.BOT_TOKEN)
@@ -31,3 +31,16 @@ async def send_random_voice(message: types.Message):
     async with aiofiles.open(path, 'rb') as voice:
         await message.answer_voice(voice)
     logger.info('A voice message was sent successfully')
+
+
+@dp.message_handler(commands=['balaboba'])
+async def send_balaboba_text(message: types.Message):
+    """Отправляет дополненный Балабобой текст"""
+    try:
+        phrase = message.text.split()[1]
+        generated_text = await get_generated_text(phrase)
+        await message.answer(generated_text)
+        logger.info('A generated message was sent successfully')
+    except IndexError:
+        await message.answer(settings.BALABOBA_ERROR_TEXT)
+        logger.info('The balaboba error message was sent successfully')

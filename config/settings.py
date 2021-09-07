@@ -103,4 +103,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-WELCOME_TEXT = 'Здарова, демон.\nИспользуй команду /voice, если хочешь услышать мой бархатный голосок.'
+WELCOME_TEXT = 'Здарова, демон.' \
+               '\nИспользуй команду /voice, если хочешь услышать мой бархатный голосок.' \
+               '\nКоманду /balaboba фраза, если хочешь, чтобы я тебе пацанскую цитату подогнал.'
+
+BALABOBA_ERROR_TEXT = 'Ты конченный? После команды напиши фразу, которую продолжит Балабоба.' \
+                      '\nПример - /balaboba фраза'
+
+BALABOBA_URL = 'https://zeapi.yandex.net/lab/api/yalm/text3'
