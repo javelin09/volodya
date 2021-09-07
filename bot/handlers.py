@@ -37,15 +37,14 @@ async def send_random_voice(message: types.Message):
 @dp.message_handler(commands=['balaboba'])
 async def send_balaboba_text(message: types.Message):
     """Отправляет дополненный Балабобой текст"""
-    try:
-        phrase = ' '.join(message.text.split()[1:])
-        is_empty_phrase, generated_text = await get_generated_text(phrase)
-        if is_empty_phrase:
-            await message.answer(settings.BALABOBA_COMMAND_ERROR_TEXT)
-            logger.info('The balaboba error message was sent successfully')
-        else:
-            await message.answer(generated_text)
-            logger.info('A generated message was sent successfully')
-    except MessageTextIsEmpty:
+    phrase = ' '.join(message.text.split()[1:])
+    is_empty_phrase, generated_text = await get_generated_text(phrase)
+    if is_empty_phrase:
+        await message.answer(settings.BALABOBA_COMMAND_ERROR_TEXT)
+        logger.info('The balaboba command error message was sent successfully')
+    elif not generated_text:
         await message.answer(settings.BALABOBA_API_ERROR_TEXT)
         logger.info('The balaboba api error message was sent successfully')
+    else:
+        await message.answer(f'*{phrase}*\n\n{generated_text}', parse_mode='markdown')
+        logger.info('A generated message was sent successfully')
