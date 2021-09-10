@@ -62,6 +62,7 @@ async def send_balaboba_text(message: types.Message):
 
 @dp.message_handler(content_types=['text'])
 async def reply_to_swearing(message: types.Message):
+    """Отвечает на ругательные сообщения"""
     for word in settings.SWEAR_WORDS_LIST:
         if word in message.text.lower():
             reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
