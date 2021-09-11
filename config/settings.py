@@ -169,6 +169,7 @@ ANSWERS_TO_SWEARING_LIST = [
     'это тебя в школе таким словам научили?',
 ]
 
+REMINDER_CREATE_MESSAGE = 'Принял, записал.'
 REMINDER_DATE_ERROR = 'Я тебе в прошлое напоминание отправить должен, демон?'
 REMINDER_COMMAND_FORMAT_ERROR_TEXT = 'Нихера.' \
                                 '\nТут два варианта.' \
