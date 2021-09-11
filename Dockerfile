@@ -1,5 +1,7 @@
 FROM python:3.9-alpine
 
+ENV TZ=Europe/Moscow
+
 RUN apk add --no-cache vim build-base tzdata libffi-dev postgresql-dev python3-dev musl-dev curl libjpeg-turbo-dev zlib-dev
 
 WORKDIR /app

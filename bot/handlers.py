@@ -66,7 +66,7 @@ async def send_balaboba_text(message: types.Message):
 async def create_remind(message: types.Message):
     """Создает напоминание"""
 
-    async def send_remind(msg: types.Message, delay: int, reminder_text: str):
+    async def send_remind(msg: types.Message, delay: float, reminder_text: str):
         """Отправляет напоминание"""
         await asyncio.sleep(delay)
         await msg.reply(reminder_text)
@@ -78,7 +78,7 @@ async def create_remind(message: types.Message):
             await message.reply(settings.REMINDER_DATE_ERROR)
             logger.info('A reminder date is less than the current one')
             return
-        asyncio.create_task(send_remind(message, reminder_delay.seconds, text.strip()))
+        asyncio.create_task(send_remind(message, reminder_delay.total_seconds(), text.strip()))
         await message.reply(settings.REMINDER_CREATE_MESSAGE)
         logger.info('A reminder was created successfully')
     except ValueError:
