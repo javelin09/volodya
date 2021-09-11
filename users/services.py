@@ -19,5 +19,4 @@ def update_or_create_user(
         'last_name': last_name,
     }
     _, created = TelegramUser.objects.filter(telegram_id=telegram_id).update_or_create(defaults=defaults)
-    if created:
-        logger.info(f'The user with id={telegram_id} was created successfully')
+    return created

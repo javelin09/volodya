@@ -8,8 +8,14 @@ from django.conf import settings
 from loguru import logger
 
 from users.services import update_or_create_user
-from .services import get_random_voice_path, get_random_sticker_path, get_generated_text, is_contains_swearing, is_admin, add_swear_to_db
-
+from .services import (
+    get_random_voice_path,
+    get_random_sticker_path,
+    get_generated_text,
+    is_contains_swearing,
+    is_admin,
+    add_swear_to_db,
+)
 
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -18,12 +24,14 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome_message(message: types.Message):
     """Отправляет приветственное сообщение"""
-    await update_or_create_user(
+    created = await update_or_create_user(
         message.from_user.id,
         message.from_user.username,
         message.from_user.first_name,
         message.from_user.last_name,
     )
+    if created:
+        logger.info(f'The user with id={message.from_user.id} was created successfully')
     await message.answer(settings.WELCOME_TEXT)
     logger.info('The welcome message was sent successfully')
 
