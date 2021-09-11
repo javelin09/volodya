@@ -1,3 +1,4 @@
+import datetime
 import os
 from distutils.util import strtobool
 from pathlib import Path
@@ -103,10 +104,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
+CURRENT_YEAR = datetime.datetime.now().year
+
 WELCOME_TEXT = 'Здарова, демон.' \
                '\nИспользуй команду /voice, если хочешь услышать мой бархатный голосок.' \
                '\nКоманду /flip_coin, если хочешь, чтобы монетка решила за тебя, тряпка.' \
-               '\nКоманду /balaboba фраза, если хочешь, чтобы я тебе пацанскую цитату подогнал.'
+               '\nКоманду /balaboba фраза, если хочешь, чтобы я тебе пацанскую цитату подогнал.' \
+               f'\nКоманду /remind Купить аспирин - 01.01.{CURRENT_YEAR} 12:00, ' \
+               f'если хочешь, чтобы я тебе напомнил о чем-то.'
 
 BALABOBA_COMMAND_ERROR_TEXT = 'Ты конченный? После команды напиши фразу, которую дополнит Балабоба.' \
                       '\nПример - /balaboba фраза'
