@@ -71,6 +71,7 @@ async def create_remind(message: types.Message):
         await asyncio.sleep(delay)
         await msg.reply(reminder_text)
         logger.info('A reminder was sent successfully')
+
     try:
         text, remind_at = message.text.replace('/remind', '').split('-')
         reminder_delay = (datetime.strptime(remind_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()).total_seconds()
