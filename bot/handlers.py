@@ -71,11 +71,18 @@ async def create_remind(message: types.Message):
         await asyncio.sleep(delay)
         await msg.reply(reminder_text)
         logger.info('A reminder was sent successfully')
-
-    text, remind_at = message.text.replace('/remind', '').split('-')
-    delay_seconds = (datetime.strptime(remind_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()).seconds
-    asyncio.create_task(send_remind(message, delay_seconds, text.strip()))
-    logger.info('A reminder was created successfully')
+    try:
+        text, remind_at = message.text.replace('/remind', '').split('-')
+        reminder_delay = datetime.strptime(remind_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()
+        if reminder_delay.days < 0:
+            await message.reply(settings.REMINDER_DATE_ERROR)
+            logger.info('A reminder date is less than the current one')
+            return
+        asyncio.create_task(send_remind(message, reminder_delay.seconds, text.strip()))
+        logger.info('A reminder was created successfully')
+    except ValueError:
+        await message.reply(settings.REMINDER_COMMAND_FORMAT_ERROR_TEXT)
+        logger.info('The reminder command format error message was sent successfully')
 
 
 @dp.message_handler(content_types=['text'])
