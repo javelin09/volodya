@@ -1,4 +1,6 @@
+import asyncio
 import random
+from datetime import datetime
 
 import aiofiles
 from aiogram import types, Dispatcher, Bot
@@ -58,6 +60,22 @@ async def send_balaboba_text(message: types.Message):
     else:
         await message.answer(f'*{phrase}*\n\n{generated_text}', parse_mode='markdown')
         logger.info('A generated message was sent successfully')
+
+
+@dp.message_handler(commands=['remind'])
+async def create_remind(message: types.Message):
+    """Создает напоминание"""
+
+    async def send_remind(msg: types.Message, delay: int, reminder_text: str):
+        """Отправляет напоминание"""
+        await asyncio.sleep(delay)
+        await msg.reply(reminder_text)
+        logger.info('A reminder was sent successfully')
+
+    text, remind_at = message.text.replace('/remind', '').split('-')
+    delay_seconds = (datetime.strptime(remind_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()).seconds
+    asyncio.create_task(send_remind(message, delay_seconds, text.strip()))
+    logger.info('A reminder was created successfully')
 
 
 @dp.message_handler(content_types=['text'])
