@@ -8,7 +8,7 @@ from django.conf import settings
 from loguru import logger
 
 from users.services import update_or_create_user
-from .services import get_random_voice_path, get_random_sticker_path, get_generated_text
+from .services import get_random_voice_path, get_random_sticker_path, get_generated_text, is_contains_swearing, is_admin, add_swear_to_db
 
 
 bot = Bot(token=settings.BOT_TOKEN)
@@ -87,12 +87,31 @@ async def create_reminder(message: types.Message):
         logger.info('The reminder command format error message was sent successfully')
 
 
+@dp.message_handler(commands=['add_swear'])
+async def add_swear(message: types.Message):
+    """Добавляет ругательное слово в БД (доступно только админам)"""
+    swear = message.text.replace('/add_swear', '').strip().lower()
+    if not swear:
+        await message.reply(settings.EMPTY_SWEARING_ERROR_TEXT)
+        logger.info('The empty swearing error message was sent successfully')
+        return
+    if await is_admin(message.from_user.id):
+        created = await add_swear_to_db(swear)
+        if created:
+            await message.reply(settings.SWEARING_CREATE_MESSAGE.format(swear))
+            logger.info('A swear word was successfully added to the database')
+        else:
+            await message.reply(settings.SWEARING_DUPLICATE_ERROR_TEXT.format(swear))
+            logger.info('A swear word is already in the database')
+    else:
+        await message.reply(settings.PERMISSION_DENIED_ERROR_TEXT)
+        logger.info('There are not enough rights to add a swear word to the database')
+
+
 @dp.message_handler(content_types=['text'])
 async def reply_to_swearing(message: types.Message):
     """Отвечает на ругательные сообщения"""
-    for word in settings.SWEAR_WORDS_LIST:
-        if word in message.text.lower():
-            reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
-            await message.reply(f'{message.from_user.first_name}, {reply_text}')
-            logger.info('A reaction to the swear word was sent successfully')
-            break
+    if await is_contains_swearing(message.text):
+        reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
+        await message.reply(f'{message.from_user.first_name}, {reply_text}')
+        logger.info('A reaction to the swear word was sent successfully')
