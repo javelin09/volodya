@@ -79,6 +79,7 @@ async def create_remind(message: types.Message):
             logger.info('A reminder date is less than the current one')
             return
         asyncio.create_task(send_remind(message, reminder_delay.seconds, text.strip()))
+        await message.reply(settings.REMINDER_CREATE_MESSAGE)
         logger.info('A reminder was created successfully')
     except ValueError:
         await message.reply(settings.REMINDER_COMMAND_FORMAT_ERROR_TEXT)
