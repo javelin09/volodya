@@ -17,6 +17,7 @@ from .services import (
     add_swear_to_db,
 )
 
+
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(bot)
 
