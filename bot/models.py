@@ -35,3 +35,16 @@ class Sticker(models.Model):
         verbose_name = 'Стикер'
         verbose_name_plural = 'Стикеры'
         ordering = ['id']
+
+
+class SwearWord(models.Model):
+    """Ругательные слова"""
+    word = models.CharField(max_length=50, verbose_name='Ругательное слово')
+
+    def __str__(self):
+        return self.word
+
+    class Meta:
+        verbose_name = 'Ругательное слово'
+        verbose_name_plural = 'Ругательные слова'
+        ordering = ['id']
