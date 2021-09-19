@@ -120,7 +120,10 @@ async def add_swear(message: types.Message):
 @dp.message_handler(content_types=['text'])
 async def reply_to_swearing(message: types.Message):
     """Отвечает на ругательные сообщения"""
-    if await is_contains_swearing(message.text):
+    if (
+        await is_contains_swearing(message.text)
+        and not await is_admin(message.from_user.id)
+    ):
         reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
         await message.reply(f'{message.from_user.first_name}, {reply_text}')
         logger.info('A reaction to the swear word was sent successfully')
