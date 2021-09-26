@@ -144,3 +144,11 @@ REMINDER_COMMAND_FORMAT_ERROR_TEXT = 'Нихера.' \
                                 '\n1. Ты забыл тире между названием задачи и датой напоминания.' \
                                 '\n2. Формат даты и времени напоминания неверный.' \
                                 '\n\nИспользуй /help, если не в состоянии запомнить пару правил.'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = strtobool(os.getenv('EMAIL_USE_TLS'))
+EMAIL_SUBJECT = 'Володя стал еще популярнее С:'
