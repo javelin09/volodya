@@ -1,5 +1,4 @@
 from asgiref.sync import sync_to_async
-from loguru import logger
 
 from .models import TelegramUser
 
