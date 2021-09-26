@@ -33,7 +33,7 @@ async def send_welcome_message(message: types.Message):
     )
     if created:
         logger.info(f'The user with id={message.from_user.id} was created successfully')
-    await message.answer(settings.WELCOME_TEXT)
+    await message.answer(settings.WELCOME_TEXT, parse_mode='markdown')
     logger.info('The welcome message was sent successfully')
 
 
