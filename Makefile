@@ -15,3 +15,6 @@ migrate:
 
 logs_backend:
 	docker logs -f volodya_backend
+
+start_bot:
+	docker exec volodya_backend python manage.py startbot
