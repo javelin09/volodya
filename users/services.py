@@ -7,7 +7,7 @@ from django.utils.html import strip_tags
 from .models import TelegramUser
 
 
-def send_mail_notification(first_name, total_users):
+def send_mail_notification(first_name: str, total_users: int) -> None:
     """Отправляет письмо админу о новом пользователе"""
     context = {
         'first_name': first_name,
