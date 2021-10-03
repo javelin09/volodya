@@ -3,6 +3,7 @@ import json
 import random
 import urllib.request
 
+import requests
 from asgiref.sync import sync_to_async
 from django.conf import settings
 
@@ -65,3 +66,36 @@ def add_swear_to_db(swear: str) -> bool:
     """Добавляет ругательное слово в БД"""
     _, created = SwearWord.objects.filter(word=swear).update_or_create(defaults={'word': swear})
     return created
+
+
+@sync_to_async
+def get_current_weather_data(city_name: str) -> dict:
+    """Возвращает прогноз погоды от OpenWeatherMap"""
+    url = settings.WEATHER_API_URL.format(city_name, settings.WEATHER_API_TOKEN)
+    response = requests.get(url).json()
+    return response
+
+
+@sync_to_async
+def prepare_weather_forecast(weather_data: dict) -> str:
+    """Подготавливает прогноз к отправке пользователю"""
+    weather_descriptions = []
+    weather_main = []
+    for weather in weather_data['weather']:
+        weather_descriptions.append(weather['description'])
+        weather_main.append(weather['main'])
+    forecast = f"*Прогноз погоды в городе {weather_data['name']}*\n\n" \
+               f"За окном {', '.join(weather_descriptions)}.\n" \
+               f"Температура: {round(weather_data['main']['temp'])}°C.\n" \
+               f"Ощущается как: {round(weather_data['main']['feels_like'])}°C.\n" \
+               f"Влажность: {round(weather_data['main']['humidity'])}%.\n" \
+               f"Скорость ветра: {round(weather_data['wind']['speed'])} м/c."
+    if round(weather_data['main']['temp']) < 0:
+        forecast += '\n\nЯ бы советовал одеться потеплее.'
+    if -10 > round(weather_data['main']['temp']) > -50:
+        forecast += '\n\nТочнее без подштанников я бы не выходил!'
+    if round(weather_data['main']['temp']) > 30:
+        forecast += '\n\nЛето, плавки, рок-н-ролл.'
+    if 'Rain' in weather_main:
+        forecast += '\n\nНе забудь зонт.'
+    return forecast
