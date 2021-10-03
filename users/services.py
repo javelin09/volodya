@@ -7,10 +7,10 @@ from django.utils.html import strip_tags
 from .models import TelegramUser
 
 
-def send_mail_notification(username, total_users):
+def send_mail_notification(first_name, total_users):
     """Отправляет письмо админу о новом пользователе"""
     context = {
-        'username': username,
+        'first_name': first_name,
         'total_users': total_users,
     }
     html_message = render_to_string('mail_notification.html', context)
@@ -41,5 +41,5 @@ def update_or_create_user(
     _, created = TelegramUser.objects.filter(telegram_id=telegram_id).update_or_create(defaults=defaults)
     if created:
         total_users = TelegramUser.objects.count()
-        send_mail_notification(username, total_users)
+        send_mail_notification(first_name, total_users)
     return created
