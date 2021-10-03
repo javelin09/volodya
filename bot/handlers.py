@@ -15,6 +15,8 @@ from .services import (
     is_contains_swearing,
     is_admin,
     add_swear_to_db,
+    get_current_weather_data,
+    prepare_weather_forecast,
 )
 
 
@@ -115,6 +117,25 @@ async def add_swear(message: types.Message):
     else:
         await message.reply(settings.PERMISSION_DENIED_ERROR_TEXT)
         logger.info('There are not enough rights to add a swear word to the database')
+
+
+@dp.message_handler(commands=['weather'])
+async def send_forecast(message: types.Message):
+    """Отправляет прогноз погоды в указанном городе"""
+    city_name = message.text.replace('/weather', '').strip().lower()
+    if not city_name:
+        await message.reply(settings.WEATHER_EMPTY_CITY_ERROR)
+        return
+    weather_data = await get_current_weather_data(city_name)
+    if int(weather_data['cod']) == 404:
+        await message.reply(settings.WEATHER_API_NOT_FOUND_ERROR.format(city_name))
+        return
+    if int(weather_data['cod']) != 200:
+        await message.reply(settings.WEATHER_API_ERROR)
+        return
+    forecast = await prepare_weather_forecast(weather_data)
+    await message.answer(forecast, parse_mode='markdown')
+    logger.info('The weather forecast was sent successfully')
 
 
 @dp.message_handler(content_types=['text'])

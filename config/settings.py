@@ -114,6 +114,7 @@ WELCOME_TEXT = 'Здарова, демон.' \
                '\nКоманду /balaboba фраза, если хочешь, чтобы я тебе пацанскую цитату подогнал.' \
                f'\nКоманду /remind Купить аспирин - 01.01.{CURRENT_YEAR} 12:00, ' \
                f'если хочешь, чтобы я тебе напомнил о чем-то.' \
+               '\nКоманду /weather город, если хочешь узнать прогноз погоды в конкретном городе.' \
                '\nДобавь меня в групповой чат, если хочешь, чтобы я отвечал на ругательные ' \
                'сообщения пользователей.' \
                '\nКоманду /add_swear слово, чтобы добавить новое ругательство в базу данных. ' \
@@ -152,3 +153,9 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = strtobool(os.getenv('EMAIL_USE_TLS'))
 EMAIL_SUBJECT = 'Поздравляю! Бота активировали!'
+
+WEATHER_API_TOKEN = os.getenv('WEATHER_API_TOKEN')
+WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?q={}&lang=ru&units=metric&appid={}'
+WEATHER_API_NOT_FOUND_ERROR = 'Дружочек, города "{}" нет на картах.'
+WEATHER_API_ERROR = 'Какая-то херня. Пойду разберусь, что у этих синоптиков случилось. Напиши позже.'
+WEATHER_EMPTY_CITY_ERROR = 'Ну я не знаю, хоть город укажи. Я тебе что Нострадамус какой-то?'
