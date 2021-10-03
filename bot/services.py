@@ -85,11 +85,11 @@ def prepare_weather_forecast(weather_data: dict) -> str:
         weather_descriptions.append(weather['description'])
         weather_main.append(weather['main'])
     forecast = f"*Прогноз погоды в городе {weather_data['name']}*\n\n" \
-               f"За окном {', '.join(weather_descriptions)}.\n" \
-               f"Температура: {round(weather_data['main']['temp'])}°C.\n" \
-               f"Ощущается как: {round(weather_data['main']['feels_like'])}°C.\n" \
-               f"Влажность: {round(weather_data['main']['humidity'])}%.\n" \
-               f"Скорость ветра: {round(weather_data['wind']['speed'])} м/c."
+               f"За окном {', '.join(weather_descriptions)}\n" \
+               f"Температура: {round(weather_data['main']['temp'])}°C\n" \
+               f"Ощущается как: {round(weather_data['main']['feels_like'])}°C\n" \
+               f"Влажность: {round(weather_data['main']['humidity'])}%\n" \
+               f"Скорость ветра: {round(weather_data['wind']['speed'])} м/c"
     if round(weather_data['main']['temp']) < 0:
         forecast += '\n\nЯ бы советовал одеться потеплее.'
     if -10 > round(weather_data['main']['temp']) > -50:
