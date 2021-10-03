@@ -5,7 +5,6 @@ from datetime import datetime
 import aiofiles
 from aiogram import types, Dispatcher, Bot
 from django.conf import settings
-from django.core.mail import send_mail
 from loguru import logger
 
 from users.services import update_or_create_user
@@ -34,13 +33,6 @@ async def send_welcome_message(message: types.Message):
     )
     if created:
         logger.info(f'The user with id={message.from_user.id} was created successfully')
-        send_mail(
-            settings.EMAIL_SUBJECT,
-            'Новый пользователь активировал бота.',
-            settings.EMAIL_HOST_USER,
-            [settings.EMAIL_HOST_USER],
-            fail_silently=False,
-        )
     await message.answer(settings.WELCOME_TEXT)
     logger.info('The welcome message was sent successfully')
 
