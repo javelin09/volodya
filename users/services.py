@@ -30,7 +30,7 @@ def update_or_create_user(
         username: str,
         first_name: str,
         last_name: str,
-) -> None:
+) -> bool:
     """Обновляет/создает пользователя в БД"""
     defaults = {
         'telegram_id': telegram_id,
