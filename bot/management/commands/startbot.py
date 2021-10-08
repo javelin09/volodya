@@ -10,5 +10,5 @@ class Command(BaseCommand):
     help = 'Start the telegram bot'
 
     def handle(self, *args, **kwargs):
-        logger.info('Ooh yeah! Volodya is started!')
+        logger.success('Ooh yeah! Volodya is started!')
         executor.start_polling(dp, skip_updates=True)

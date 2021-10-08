@@ -34,9 +34,9 @@ async def send_welcome_message(message: types.Message):
         message.from_user.last_name,
     )
     if created:
-        logger.info(f'The user with id={message.from_user.id} was created successfully')
+        logger.success(f'The user with id={message.from_user.id} was created successfully')
     await message.answer(settings.WELCOME_TEXT)
-    logger.info('The welcome message was sent successfully')
+    logger.success('The welcome message was sent successfully')
 
 
 @dp.message_handler(commands=['voice'])
@@ -45,7 +45,7 @@ async def send_random_voice(message: types.Message):
     path = await get_random_voice_path()
     async with aiofiles.open(path, 'rb') as voice:
         await message.answer_voice(voice)
-    logger.info('A voice message was sent successfully')
+    logger.success('A voice message was sent successfully')
 
 
 @dp.message_handler(commands=['flip_coin'])
@@ -54,7 +54,7 @@ async def flip_coin(message: types.Message):
     path = await get_random_sticker_path()
     async with aiofiles.open(path, 'rb') as sticker:
         await message.answer_sticker(sticker)
-    logger.info('A sticker was sent successfully')
+    logger.success('A sticker was sent successfully')
 
 
 @dp.message_handler(commands=['balaboba'])
@@ -64,13 +64,11 @@ async def send_balaboba_text(message: types.Message):
     is_empty_phrase, generated_text = await get_generated_text(phrase)
     if is_empty_phrase:
         await message.reply(settings.BALABOBA_COMMAND_ERROR_TEXT)
-        logger.info('The balaboba command error message was sent successfully')
     elif not generated_text:
         await message.reply(settings.BALABOBA_API_ERROR_TEXT)
-        logger.info('The balaboba api error message was sent successfully')
     else:
         await message.answer(f'*{phrase}*\n\n{generated_text}', parse_mode='markdown')
-        logger.info('A generated message was sent successfully')
+        logger.success('A generated message was sent successfully')
 
 
 @dp.message_handler(commands=['remind'])
@@ -81,21 +79,19 @@ async def create_reminder(message: types.Message):
         """Отправляет напоминание"""
         await asyncio.sleep(delay)
         await msg.reply(reminder_text)
-        logger.info('A reminder was sent successfully')
+        logger.success('A reminder was sent successfully')
 
     try:
         text, remind_at = message.text.replace('/remind', '').split('-')
         reminder_delay = (datetime.strptime(remind_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()).total_seconds()
         if reminder_delay < 0:
             await message.reply(settings.REMINDER_DATE_ERROR)
-            logger.info('The reminder date error message was sent successfully')
             return
         asyncio.create_task(send_reminder(message, reminder_delay, text.strip()))
         await message.reply(settings.REMINDER_CREATE_MESSAGE)
-        logger.info('A reminder was created successfully')
+        logger.success('A reminder was created successfully')
     except ValueError:
         await message.reply(settings.REMINDER_COMMAND_FORMAT_ERROR_TEXT)
-        logger.info('The reminder command format error message was sent successfully')
 
 
 @dp.message_handler(commands=['add_swear'])
@@ -104,19 +100,16 @@ async def add_swear(message: types.Message):
     swear = message.text.replace('/add_swear', '').strip().lower()
     if not swear:
         await message.reply(settings.EMPTY_SWEARING_ERROR_TEXT)
-        logger.info('The empty swearing error message was sent successfully')
         return
     if await is_admin(message.from_user.id):
         created = await add_swear_to_db(swear)
         if created:
             await message.reply(settings.SWEARING_CREATE_MESSAGE.format(swear))
-            logger.info('A swear word was successfully added to the database')
+            logger.success('A swear word was successfully added to the database')
         else:
             await message.reply(settings.SWEARING_DUPLICATE_ERROR_TEXT.format(swear))
-            logger.info('A swear word is already in the database')
     else:
         await message.reply(settings.PERMISSION_DENIED_ERROR_TEXT)
-        logger.info('There are not enough rights to add a swear word to the database')
 
 
 @dp.message_handler(commands=['weather'])
@@ -135,7 +128,7 @@ async def send_forecast(message: types.Message):
         return
     forecast = await prepare_weather_forecast(weather_data)
     await message.answer(forecast, parse_mode='markdown')
-    logger.info('The weather forecast was sent successfully')
+    logger.success('The weather forecast was sent successfully')
 
 
 @dp.message_handler(content_types=['text'])
@@ -147,4 +140,4 @@ async def reply_to_swearing(message: types.Message):
     ):
         reply_text = random.choice(settings.ANSWERS_TO_SWEARING_LIST)
         await message.reply(f'{message.from_user.first_name}, {reply_text}')
-        logger.info('A reaction to the swear word was sent successfully')
+        logger.success('A reaction to the swear word was sent successfully')
