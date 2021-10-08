@@ -15,3 +15,6 @@ migrate:
 
 logs_backend:
 	docker logs -f volodya_backend
+
+tests:
+	docker exec volodya_backend pytest
