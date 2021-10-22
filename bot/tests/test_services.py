@@ -74,7 +74,7 @@ async def test_is_admin() -> None:
 @pytest.mark.django_db
 async def test_is_not_admin() -> None:
     """Тестирует проверку на админа. Кейс с обычным пользователем"""
-    assert not await is_admin(123456789)
+    assert not await is_admin(1041213451)
 
 
 @pytest.mark.asyncio
