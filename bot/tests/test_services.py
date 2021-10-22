@@ -66,7 +66,7 @@ async def test_not_contains_swearing() -> None:
 @pytest.mark.asyncio
 async def test_is_admin() -> None:
     """Тестирует проверку на админа. Кейс с админом"""
-    assert await is_admin(settings.TELEGRAM_ADMIN_ID)
+    assert await is_admin(336211006)
 
 
 @pytest.mark.asyncio
