@@ -8,6 +8,7 @@ from asgiref.sync import sync_to_async
 from django.conf import settings
 
 from .models import VoiceMessage, Sticker, SwearWord
+from users.models import TelegramUser
 
 
 @sync_to_async
@@ -58,7 +59,7 @@ def is_contains_swearing(message: str) -> bool:
 @sync_to_async
 def is_admin(telegram_user_id: int) -> bool:
     """Проверяет, является ли пользователь админом"""
-    return telegram_user_id == settings.TELEGRAM_ADMIN_ID
+    return TelegramUser.objects.get(telegram_id=telegram_user_id).is_admin
 
 
 @sync_to_async

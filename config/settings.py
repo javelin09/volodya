@@ -104,8 +104,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-TELEGRAM_ADMIN_ID = int(os.getenv('TELEGRAM_ADMIN_ID'))
-
 CURRENT_YEAR = datetime.datetime.now().year
 
 WELCOME_TEXT = 'Здарова, демон.' \
