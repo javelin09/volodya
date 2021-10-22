@@ -64,12 +64,14 @@ async def test_not_contains_swearing() -> None:
 
 
 @pytest.mark.asyncio
+@pytest.mark.django_db
 async def test_is_admin() -> None:
     """Тестирует проверку на админа. Кейс с админом"""
     assert await is_admin(336211006)
 
 
 @pytest.mark.asyncio
+@pytest.mark.django_db
 async def test_is_not_admin() -> None:
     """Тестирует проверку на админа. Кейс с обычным пользователем"""
     assert not await is_admin(123456789)
