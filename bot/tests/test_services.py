@@ -1,7 +1,10 @@
 import pytest
-from django.conf import settings
 
-from .confest import django_db_setup
+from .confest import (
+    django_db_setup,
+    get_telegram_admin_user_id,
+    get_telegram_user_id,
+)
 from bot.services import (
     get_random_voice_path,
     get_random_sticker_path,
@@ -65,16 +68,16 @@ async def test_not_contains_swearing() -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.django_db
-async def test_is_admin() -> None:
+async def test_is_admin(get_telegram_admin_user_id) -> None:
     """Тестирует проверку на админа. Кейс с админом"""
-    assert await is_admin(336211006)
+    assert await is_admin(get_telegram_admin_user_id)
 
 
 @pytest.mark.asyncio
 @pytest.mark.django_db
-async def test_is_not_admin() -> None:
+async def test_is_not_admin(get_telegram_user_id) -> None:
     """Тестирует проверку на админа. Кейс с обычным пользователем"""
-    assert not await is_admin(1041213451)
+    assert not await is_admin(get_telegram_user_id)
 
 
 @pytest.mark.asyncio

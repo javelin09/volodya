@@ -4,6 +4,8 @@ import pytest
 from django.conf import settings
 from dotenv import load_dotenv
 
+from users.models import TelegramUser
+
 
 load_dotenv()
 
@@ -18,3 +20,13 @@ def django_db_setup():
         'PORT': os.getenv('DB_PORT', 5432),
         'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
     }
+
+
+@pytest.fixture
+def get_telegram_admin_user_id():
+    return TelegramUser.objects.filter(is_admin=True).first().telegram_id
+
+
+@pytest.fixture
+def get_telegram_user_id():
+    return TelegramUser.objects.filter(is_admin=False).first().telegram_id
