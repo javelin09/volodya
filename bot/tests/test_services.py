@@ -1,10 +1,5 @@
 import pytest
 
-from .confest import (
-    django_db_setup,
-    get_telegram_admin_user_id,
-    get_telegram_user_id,
-)
 from bot.services import (
     get_random_voice_path,
     get_random_sticker_path,
