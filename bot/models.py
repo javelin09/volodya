@@ -61,6 +61,9 @@ class HolidayGreeting(models.Model):
     text = models.TextField(verbose_name='Текст поздравления')
     send_on = models.DateTimeField(verbose_name='Дата отправки')
 
+    def __str__(self):
+        return self.holiday
+
     class Meta:
         verbose_name = 'Поздравление с праздниками'
         verbose_name_plural = 'Поздравления с праздниками'
