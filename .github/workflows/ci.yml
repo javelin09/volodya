@@ -20,6 +20,4 @@ jobs:
         pip install -r requirements.txt
 
     - name: Tests
-      run: |
-        cd volodya/
-        pytest
+      run: pytest
