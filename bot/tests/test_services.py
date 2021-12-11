@@ -42,7 +42,7 @@ async def test_generated_text_with_empty_phrase() -> None:
     phrase = ''
     is_empty_phrase, generated_text = await get_generated_text(phrase)
     assert is_empty_phrase
-    assert not generated_text
+    assert generated_text
 
 
 @pytest.mark.asyncio
