@@ -6,5 +6,5 @@ from .models import HolidayGreeting
 
 @receiver(post_save, sender=HolidayGreeting)
 def send_holiday_greeting_signal(sender, instance, created, **kwargs):
-    """Создает таску после сохранения поздравления"""
+    """Отправляет поздравление с праздником после его сохранения"""
     pass
