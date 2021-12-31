@@ -104,6 +104,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
+TELEGRAM_API_URL = 'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'
+
 CURRENT_YEAR = datetime.datetime.now().year
 
 WELCOME_TEXT = 'Здарова, демон.' \
