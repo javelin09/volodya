@@ -100,3 +100,9 @@ def prepare_weather_forecast(weather_data: dict) -> str:
     if 'Rain' in weather_main:
         forecast += '\n\nНе забудь зонт.'
     return forecast
+
+
+@sync_to_async
+def get_all_telegram_user_ids() -> list[int]:
+    """Возвращает id пользователей в телеграме"""
+    return list(TelegramUser.objects.values_list('telegram_id', flat=True))

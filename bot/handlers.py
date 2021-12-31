@@ -1,6 +1,7 @@
 import asyncio
 import random
 from datetime import datetime
+from typing import Union
 
 import aiofiles
 from aiogram import types, Dispatcher, Bot
@@ -17,8 +18,8 @@ from .services import (
     add_swear_to_db,
     get_current_weather_data,
     prepare_weather_forecast,
+    get_all_telegram_user_ids,
 )
-
 
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -129,6 +130,44 @@ async def send_forecast(message: types.Message):
     forecast = await prepare_weather_forecast(weather_data)
     await message.answer(forecast, parse_mode='markdown')
     logger.success('The weather forecast was sent successfully')
+
+
+@dp.message_handler(commands=['holiday_greeting'])
+async def create_holiday_greeting(message: types.Message):
+    """Создает праздничное поздравление"""
+
+    async def send_holiday_greeting(
+        greeting_text: str,
+        send_to_user: Union[str, int],
+        delay: float,
+    ):
+        """Отправляет праздничное поздравление"""
+        await asyncio.sleep(delay)
+        if send_to_user == 'all':
+            for telegram_id in await get_all_telegram_user_ids():
+                await bot.send_message(telegram_id, greeting_text)
+        else:
+            await bot.send_message(send_to_user, greeting_text)
+        logger.success('A greeting was sent successfully')
+
+    # /holiday_greeting Текст поздравления - 12.01.2022 14:00 - all/<user_id>
+    if not await is_admin(message.from_user.id):
+        await message.reply(settings.PERMISSION_DENIED_ERROR_TEXT)
+        return
+    try:
+        items = message.text.replace('/holiday_greeting', '').split('-')
+        text, send_at, send_to = [item.strip() for item in items]
+        greeting_delay = (
+                datetime.strptime(send_at.strip(), '%d.%m.%Y %H:%M') - datetime.now()
+        ).total_seconds()
+        if greeting_delay < 0:
+            await message.reply(settings.HOLIDAY_GREETING_DATE_ERROR)
+            return
+        asyncio.create_task(send_holiday_greeting(text, send_to, greeting_delay))
+        await message.reply(settings.HOLIDAY_GREETING_CREATE_MESSAGE)
+        logger.success('A greeting was created successfully')
+    except ValueError:
+        await message.reply(settings.HOLIDAY_GREETING_FORMAT_ERROR_TEXT)
 
 
 @dp.message_handler(content_types=['text'])

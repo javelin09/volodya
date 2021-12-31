@@ -117,6 +117,9 @@ WELCOME_TEXT = 'Здарова, демон.' \
                'сообщения пользователей.' \
                '\nКоманду /add_swear слово, чтобы добавить новое ругательство в базу данных. ' \
                'Доступно только администратору бота.' \
+               '\nКоманду /holiday_greeting Текст поздравления - 12.01.2022 14:00 - all/<user_id>, ' \
+               'чтобы Володя отправил текст поздравления конкретному пользователю, либо всем сразу. ' \
+               'Доступно только администратору бота.' \
                '\n\nАвтор сия творения - @sh4rpy.'
 
 BALABOBA_COMMAND_ERROR_TEXT = 'Ты конченный? После команды напиши фразу, которую дополнит Балабоба.' \
@@ -129,7 +132,7 @@ BALABOBA_URL = 'https://zeapi.yandex.net/lab/api/yalm/text3'
 SWEARING_CREATE_MESSAGE = 'Слово "{}" добавлено в базу данных.'
 SWEARING_DUPLICATE_ERROR_TEXT = 'Слово "{}" уже есть в базе данных.'
 EMPTY_SWEARING_ERROR_TEXT = 'Ты адекватный вообще, нет? Мне что ли пустоту добавить в базу?'
-PERMISSION_DENIED_ERROR_TEXT = 'Такому лоху, как ты, нельзя добавлять ругательства.'
+PERMISSION_DENIED_ERROR_TEXT = 'Такому лоху, как ты, нельзя пользоваться этой командой.'
 
 ANSWERS_TO_SWEARING_LIST = [
     'не выражаться!',
@@ -144,6 +147,10 @@ REMINDER_COMMAND_FORMAT_ERROR_TEXT = 'Нихера.' \
                                 '\n1. Ты забыл тире между названием задачи и датой напоминания.' \
                                 '\n2. Формат даты и времени напоминания неверный.' \
                                 '\n\nИспользуй /help, если не в состоянии запомнить пару правил.'
+
+HOLIDAY_GREETING_CREATE_MESSAGE = 'Напоминание создал, я молодец.'
+HOLIDAY_GREETING_FORMAT_ERROR_TEXT = 'Пацан, неверный формат команды.'
+HOLIDAY_GREETING_DATE_ERROR = 'Я тебе в прошлое поздравление отправить должен, демон?'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
