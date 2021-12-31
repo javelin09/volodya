@@ -48,23 +48,3 @@ class SwearWord(models.Model):
         verbose_name = 'Ругательное слово'
         verbose_name_plural = 'Ругательные слова'
         ordering = ['id']
-
-
-class HolidayGreeting(models.Model):
-    """Поздравления с праздниками"""
-    users = models.ManyToManyField(
-        'users.TelegramUser',
-        verbose_name='Пользователи',
-        related_name='holiday_greetings',
-    )
-    holiday = models.CharField(verbose_name='Название праздника', max_length=50)
-    text = models.TextField(verbose_name='Текст поздравления')
-    send_on = models.DateTimeField(verbose_name='Дата отправки')
-
-    def __str__(self):
-        return self.holiday
-
-    class Meta:
-        verbose_name = 'Поздравление с праздниками'
-        verbose_name_plural = 'Поздравления с праздниками'
-        ordering = ['id']
