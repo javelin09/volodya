@@ -150,7 +150,6 @@ async def create_holiday_greeting(message: types.Message):
             await bot.send_message(send_to_user, greeting_text)
         logger.success('A greeting was sent successfully')
 
-    # /holiday_greeting Текст поздравления - 12.01.2022 14:00 - all/<user_id>
     if not await is_admin(message.from_user.id):
         await message.reply(settings.PERMISSION_DENIED_ERROR_TEXT)
         return
