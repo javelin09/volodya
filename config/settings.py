@@ -150,7 +150,7 @@ REMINDER_COMMAND_FORMAT_ERROR_TEXT = 'Нихера.' \
                                 '\n2. Формат даты и времени напоминания неверный.' \
                                 '\n\nИспользуй /help, если не в состоянии запомнить пару правил.'
 
-HOLIDAY_GREETING_CREATE_MESSAGE = 'Напоминание создал, я молодец.'
+HOLIDAY_GREETING_CREATE_MESSAGE = 'Поздравление создал, я молодец.'
 HOLIDAY_GREETING_FORMAT_ERROR_TEXT = 'Пацан, неверный формат команды.'
 HOLIDAY_GREETING_DATE_ERROR = 'Я тебе в прошлое поздравление отправить должен, демон?'
 
