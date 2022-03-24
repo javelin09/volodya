@@ -151,7 +151,7 @@ async def create_holiday_greeting(message: types.Message):
             else:
                 await bot.send_message(send_to_user, greeting_text)
         except ChatNotFound:
-            logger.info(f'A user stopped the bot. Skipping...')
+            logger.info(f'Some users stopped the bot. Skipping...')
         logger.success('A greeting was sent successfully')
 
     if not await is_admin(message.from_user.id):
