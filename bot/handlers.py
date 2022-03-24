@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Union
 
 import aiofiles
+from aiogram.utils.exceptions import ChatNotFound
 from aiogram import types, Dispatcher, Bot
 from django.conf import settings
 from loguru import logger
@@ -143,11 +144,14 @@ async def create_holiday_greeting(message: types.Message):
     ):
         """Отправляет праздничное поздравление"""
         await asyncio.sleep(delay)
-        if send_to_user == 'all':
-            for telegram_id in await get_all_telegram_user_ids():
-                await bot.send_message(telegram_id, greeting_text)
-        else:
-            await bot.send_message(send_to_user, greeting_text)
+        try:
+            if send_to_user == 'all':
+                for telegram_id in await get_all_telegram_user_ids():
+                    await bot.send_message(telegram_id, greeting_text)
+            else:
+                await bot.send_message(send_to_user, greeting_text)
+        except ChatNotFound:
+            logger.info(f'A user stopped the bot. Skipping...')
         logger.success('A greeting was sent successfully')
 
     if not await is_admin(message.from_user.id):
